@@ -1,16 +1,24 @@
-all: main
+CC = gcc
+CFLAGS = -Wall -Werror
 
-CC = clang
-override CFLAGS += -g -Wno-everything -pthread -lm
+TARGET = program
+SRCS = main.c
+OBJS = $(SRCS:.c=.o)
 
-SRCS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.c' -print)
-HEADERS = $(shell find . -name '.ccls-cache' -type d -prune -o -type f -name '*.h' -print)
+.PHONY: all build clean run
 
-main: $(SRCS) $(HEADERS)
-	$(CC) $(CFLAGS) $(SRCS) -o "$@"
+all: build
 
-main-debug: $(SRCS) $(HEADERS)
-	$(CC) $(CFLAGS) -O0 $(SRCS) -o "$@"
+build: $(TARGET)
+
+$(TARGET): $(OBJS)
+	$(CC) $(CFLAGS) $^ -o $@
+
+%.o: %.c
+	$(CC) $(CFLAGS) -c $< -o $@
+
+run: build
+	./$(TARGET)
 
 clean:
-	rm -f main main-debug
+	rm -f $(OBJS) $(TARGET)

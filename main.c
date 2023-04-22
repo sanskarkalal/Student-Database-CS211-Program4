@@ -1,3 +1,14 @@
+/* -----------------------------------
+Program 3: Student Database
+        In this program we make a database of students and their information.
+        Using a B-tree implemented with Linked Lists, we can add, remove, and
+        search for students in the database. We can also print the database
+        in a variety of ways.
+Course: CS 211, Spring 2023, UIC
+System: Replit
+Author: Sanskar Kalal
+----------------------------------- */
+
 #include "stdlib.h"
 #include "string.h"
 #include <stdio.h>

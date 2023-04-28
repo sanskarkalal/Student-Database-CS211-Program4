@@ -159,12 +159,12 @@ void deleteStudent(Databaseptr database, const char *id) {
   }
 
   // Remove the student from the other lists
-  removeFromList(&database->pHonorRollList, id);
-  removeFromList(&database->pAcademicProbationList, id);
-  removeFromList(&database->pFreshmanList, id);
-  removeFromList(&database->pSophomoreList, id);
-  removeFromList(&database->pJuniorList, id);
-  removeFromList(&database->pSeniorList, id);
+    free(removeFromList(&database->pHonorRollList, id));
+    free(removeFromList(&database->pAcademicProbationList, id));
+    free(removeFromList(&database->pFreshmanList, id));
+    free(removeFromList(&database->pSophomoreList, id));
+    free(removeFromList(&database->pJuniorList, id));
+    free(removeFromList(&database->pSeniorList, id));
 
   // Free the memory allocated for the student
   free(removedNode->pStudent->name);
@@ -230,7 +230,7 @@ void insertSortedByName(StudentNodeptr *head, StudentNodeptr *newStudent) {
 void insertSortedByGPA(StudentNodeptr *head, StudentNodeptr *newStudent) {
   // If the list is empty or the new student's GPA is less than the current
   // head's GPA
-  if (*head == NULL || (*newStudent)->pStudent->gpa < (*head)->pStudent->gpa) {
+  if (*head == NULL || (*newStudent)->pStudent->gpa <= (*head)->pStudent->gpa) {
     (*newStudent)->pNext = *head;
     *head = *newStudent;
   } else {
@@ -436,9 +436,10 @@ int main() {
   printf("Enter E to start with an empty database, \n");
   printf("or F to start with a database that has information on students from "
          "a file.\n");
-  printf("Your choice --> ");
-  scanf("%s", choice);
+
   while (1) {
+      printf("Your choice --> ");
+      scanf("%s", choice);
       // if the user wants to use a file
     if (strcmp(choice, "F") == 0) {
       useFile(&database);
@@ -658,7 +659,7 @@ int main() {
   FreeMemory(&database);
   free(database);
 
-  printf("Thanks for playing!\n");
+  printf("\nThanks for playing!\n");
   printf("Exiting...\n");
 
   return 0;
